@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Inter, system-ui, sans-serif;
+    background: linear-gradient(180deg, #f8f7ff 0%, #fffafa 100%);
+    color: #202024;
+}
+
+.app-shell {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+}
+
+.page-header p {
+    margin: 0.75rem auto 0;
+    max-width: 34rem;
+    color: #4a4a55;
+    line-height: 1.6;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
+    padding: 1.5rem;
+}
+
+.cat-frame {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #f3f4f6;
+    display: grid;
+    place-items: center;
+}
+
+.cat-frame img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border-radius: 18px;
+}
+
+.loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #374151;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.cat-details {
+    margin: 1.5rem 0 1rem;
+    line-height: 1.75;
+}
+
+.cat-details p {
+    margin: 0.35rem 0;
+}
+
+.secondary {
+    color: #52525b;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    padding: 0.95rem 1.2rem;
+    background: #5b21b6;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background: #6d28d9;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+@media (max-width: 600px) {
+    .app-shell {
+        padding: 1.2rem 0.75rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+}

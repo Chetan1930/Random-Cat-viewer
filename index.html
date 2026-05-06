@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app-shell">
+        <header class="page-header">
+            <h1>Random Cat Viewer</h1>
+            <p>Fetch a new cat image each time you click the button.</p>
+        </header>
+
+        <section class="card">
+            <div class="cat-frame">
+                <img id="cat-image" src="" alt="Random cat" />
+                <div id="loading" class="loading">Loading cat...</div>
+            </div>
+
+            <div class="cat-details">
+                <p id="cat-id">Cat ID: —</p>
+                <p id="cat-breed" class="secondary"></p>
+                <p id="cat-description" class="secondary"></p>
+            </div>
+
+            <button id="new-cat-button" type="button">Show another cat</button>
+        </section>
+    </main>
+
+    <script src="logig.js"></script>
+</body>
+</html>
