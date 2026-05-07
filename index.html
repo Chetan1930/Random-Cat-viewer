@@ -11,6 +11,10 @@
         <header class="page-header">
             <h1>Random Cat Viewer</h1>
             <p>Fetch a new cat image each time you click the button.</p>
+            <div class="stats">
+                <span id="cat-counter">Cats viewed: 0</span>
+                <button id="view-favorites-button" class="secondary-button header-button">View Favorites</button>
+            </div>
         </header>
 
         <section class="card">
@@ -25,10 +29,21 @@
                 <p id="cat-description" class="secondary"></p>
             </div>
 
-            <button id="new-cat-button" type="button">Show another cat</button>
+            <div class="button-group">
+                <button id="favorite-button" type="button" class="secondary-button">❤️ Favorite</button>
+                <button id="new-cat-button" type="button">Show another cat</button>
+            </div>
+        </section>
+
+        <section id="favorites-section" class="favorites-section hidden">
+            <h2>Your Favorite Cats</h2>
+            <div id="favorites-grid" class="favorites-grid">
+                <!-- Favorites will be populated here -->
+            </div>
+            <button id="close-favorites-button" class="secondary-button">Close Favorites</button>
         </section>
     </main>
 
-    <script src="logig.js"></script>
+    <script src="logic.js"></script>
 </body>
 </html>

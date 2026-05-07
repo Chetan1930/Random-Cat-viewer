@@ -3,17 +3,57 @@ const catImage = document.getElementById('cat-image');
 const catIdText = document.getElementById('cat-id');
 const catBreedText = document.getElementById('cat-breed');
 const catDescriptionText = document.getElementById('cat-description');
-const newCatButton = document.getElementById('new-cat-button');
-const loadingText = document.getElementById('loading');
+const viewFavoritesButton = document.getElementById('view-favorites-button');
+const favoritesSection = document.getElementById('favorites-section');
+const favoritesGrid = document.getElementById('favorites-grid');
+const closeFavoritesButton = document.getElementById('close-favorites-button');
+const catCounter = document.getElementById('cat-counter');
 
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/600x400?text=No+Cat+Image';
 let prefetchedCat = null;
 let prefetchInFlight = null;
+let currentCat = null;
+let viewedCatsCount = 0;
 
-function showLoading(isLoading) {
-    loadingText.hidden = !isLoading;
-    catImage.hidden = isLoading;
-    newCatButton.disabled = isLoading;
+function getFavorites() {
+    const favorites = localStorage.getItem('catFavorites');
+    return favorites ? JSON.parse(favorites) : [];
+}
+
+function saveFavorites(favorites) {
+    localStorage.setItem('catFavorites', JSON.stringify(favorites));
+}
+
+function isFavorited(catId) {
+    const favorites = getFavorites();
+    return favorites.some(cat => cat.id === catId);
+}
+
+function showFavorites() {
+    const favorites = getFavorites();
+    favoritesGrid.innerHTML = '';
+    
+    if (favorites.length === 0) {
+        favoritesGrid.innerHTML = '<p>No favorite cats yet. Click the heart button to add some!</p>';
+    } else {
+        favorites.forEach(cat => {
+            const item = document.createElement('div');
+            item.className = 'favorite-item';
+            item.innerHTML = `
+                <img src="${cat.image}" alt="${cat.name}" loading="lazy">
+                <h3>${cat.name || 'Unknown'}</h3>
+                <p>${cat.description || 'No description'}</p>
+            `;
+            favoritesGrid.appendChild(item);
+        });
+    }
+    
+    favoritesSection.classList.remove('hidden');
+    favoritesSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideFavorites() {
+    favoritesSection.classList.add('hidden');
 }
 
 function getImageUrl(data) {
@@ -34,11 +74,24 @@ function preloadImage(src) {
 }
 
 function renderCat(data, imageUrl) {
+    currentCat = data;
+    viewedCatsCount++;
+    catCounter.textContent = `Cats viewed: ${viewedCatsCount}`;
+    
     catImage.src = imageUrl;
     catImage.alt = `Random cat ${data.id || data.name || ''}`;
     catIdText.innerText = data.id ? `Cat ID: ${data.id}` : 'Cat ID: —';
     catBreedText.innerText = data.name ? `Breed: ${data.name}` : 'Breed information unavailable.';
     catDescriptionText.innerText = data.description || data.temperament || 'No description available.';
+    
+    // Update favorite button
+    if (data.id && isFavorited(data.id)) {
+        favoriteButton.classList.add('favorited');
+        favoriteButton.textContent = '💖 Favorited';
+    } else {
+        favoriteButton.classList.remove('favorited');
+        favoriteButton.textContent = '❤️ Favorite';
+    }
 }
 
 async function fetchCatData() {
@@ -88,4 +141,18 @@ async function fetchCat() {
 }
 
 newCatButton.addEventListener('click', fetchCat);
+favoriteButton.addEventListener('click', toggleFavorite);
+viewFavoritesButton.addEventListener('click', showFavorites);
+closeFavoritesButton.addEventListener('click', hideFavorites);
+
+// Keyboard support
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'Space' || event.code === 'Enter') {
+        if (document.activeElement === document.body) {
+            event.preventDefault();
+            fetchCat();
+        }
+    }
+});
+
 fetchCat();
